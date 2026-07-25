@@ -4,7 +4,7 @@ import DashboardLayout from '../layouts/DashboardLayout'
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
 
-import { sendMessage } from "../services/aiService";
+import { sendMessageStream } from "../services/aiService";
 
 const AIAssistant = () => {
 
@@ -19,51 +19,81 @@ const AIAssistant = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const handleSendMessage = async (userMessage) => {
+   const handleSendMessage = async (userMessage) => {
 
-        // Add user's message immediately
-        setMessages((prev) => [
-            ...prev,
-            {
-                sender: "user",
-                message: userMessage,
-            },
-        ]);
+    // Add user message
+    setMessages((prev) => [
+        ...prev,
+        {
+            sender: "user",
+            message: userMessage,
+        },
+         {
+            sender: "ai",
+            message: "",
+        },
+    ]);
 
-        try {
+    // Add an empty AI message immediately
+    
+       
+    
 
-            setLoading(true);
+    setLoading(true);
 
-            const response = await sendMessage(userMessage);
+    try {
 
-            setMessages((prev) => [
-                ...prev,
-                {
-                    sender: "ai",
-                    message: response.response,
-                },
-            ]);
+        await sendMessageStream(
+            userMessage,
 
-        } catch (error) {
+            (chunk) => {
 
-            setMessages((prev) => [
-                ...prev,
-                {
-                    sender: "ai",
-                    message:
-                        "Something went wrong while contacting the AI.",
-                },
-            ]);
+                setMessages((prev) => {
 
-            console.log(error);
+                    const updated = [...prev];
 
-        } finally {
+                    updated[updated.length - 1] = {
+                        ...updated[updated.length - 1],
+                        message:
+                            updated[updated.length - 1].message + chunk,
+                    };
 
-            setLoading(false);
+                    return updated;
 
-        }
+                });
 
-    };
+            }
+
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        setMessages((prev) => {
+
+            const updated = [...prev];
+
+            updated[updated.length - 1] = {
+
+                sender: "ai",
+
+                message:
+                    "Something went wrong while contacting the AI.",
+
+            };
+
+            return updated;
+
+        });
+
+    } finally {
+
+        setLoading(false);
+
+    }
+
+};
 
     return (
 

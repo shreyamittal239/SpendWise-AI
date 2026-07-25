@@ -1,5 +1,5 @@
 const Expense = require("../models/expense");
-const { generateAIResponse } = require("./geminiService");
+const { generateAIResponse , generateAIResponseStream } = require("./geminiService");
 const { buildExpenseAnalysisPrompt , buildChatPrompt } = require("../utils/promptBuilder");
 const  {buildExpenseSummary } = require("../utils/expenseSummary")
 
@@ -58,7 +58,28 @@ const askFinancialAssistant = async (
          return response;
 }
 
+const streamFinancialAssistant = async (userId, message) => {
+    const expenses = await Expense.find({
+        user: userId
+    }).sort({ date: -1 });
+
+    if (!expenses.length) {
+        throw new Error("No expenses found.");
+    }
+    const prompt = buildChatPrompt(
+        buildExpenseSummary(expenses),
+        message
+    );
+
+    const stream =
+        await generateAIResponseStream(prompt);
+
+    return stream;
+
+}
+
 module.exports = {
     analyzeExpenses,
-askFinancialAssistant
+    askFinancialAssistant,
+    streamFinancialAssistant
 };

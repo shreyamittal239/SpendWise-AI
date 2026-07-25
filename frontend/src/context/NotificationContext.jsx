@@ -41,7 +41,7 @@ const clearNotifications = () => {
 
         };
 
-        const handleExpenseUpdated = (expense) => {
+    const handleExpenseUpdated = (expense) => {
 
     const notification = {
 

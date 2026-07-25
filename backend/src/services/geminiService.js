@@ -18,6 +18,17 @@ return response.text;
 }
 };
 
+const generateAIResponseStream = async (prompt) => {
+    try {
+        const stream = await ai.models.generateContentStream({
+            model: "models/gemini-3.5-flash",         contents: prompt,
+        });
+        return stream;
+    } catch (error) {
+        console.error("Gemini Error:", error);
+        throw new Error("Failed to generate AI response");
+    }
+};
 
 
-module.exports = { generateAIResponse};
+module.exports = { generateAIResponse , generateAIResponseStream };
