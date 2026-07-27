@@ -1,292 +1,376 @@
-# Expense Tracker
+# SpendWise AI
 
-A full-stack MERN Expense Tracker that enables users to manage personal and shared expenses efficiently. The application supports secure authentication, group expense management, automatic balance calculation, settlements, and an interactive dashboard for tracking financial activities.
-
----
-
-## Overview
-
-Expense Tracker is designed to simplify expense management for both individuals and groups. Users can create groups, add members, record shared expenses, calculate balances automatically, and settle outstanding dues with an optimized settlement algorithm.
-
-The project follows a scalable MVC architecture and implements secure authentication, RESTful APIs, and responsive user interfaces.
+A full-stack AI-powered personal finance management platform built using the MERN stack. SpendWise AI enables users to track expenses, manage shared group expenses, receive real-time notifications, and interact with an AI financial assistant capable of analyzing spending habits and providing personalized financial insights.
 
 ---
 
-## Features
+## Table of Contents
 
-### Authentication
-
-- User Registration
-- Secure Login & Logout
-- JWT Authentication
-- Protected Routes
-- Password Encryption using bcrypt
-
----
-
-### Personal Expense Management
-
-- Add Expenses
-- Update Expenses
-- Delete Expenses
-- Expense Categories
-- Dashboard Statistics
-- Monthly Expense Overview
+* Overview
+* Features
+* Technology Stack
+* Architecture
+* Project Structure
+* API Endpoints
+* Installation
+* Environment Variables
+* Screenshots
+* Future Enhancements
+* Learning Outcomes
+* Author
 
 ---
 
-### Group Management
+# Overview
 
-- Create Groups
-- View Group Details
-- Add Members to Existing Groups
-- Member Management
-- Group Expense Dashboard
+SpendWise AI is designed to simplify personal finance management by combining traditional expense tracking with artificial intelligence and real-time communication.
 
----
+The platform allows users to:
 
-### Shared Expenses
+* Track daily expenses
+* Categorize and analyze spending
+* Manage group expenses
+* Receive real-time notifications
+* Upload profile images
+* Chat with an AI Financial Assistant
+* Receive AI-generated spending analysis and budgeting recommendations
 
-- Add Shared Expenses
-- Edit Shared Expenses
-- Delete Shared Expenses
-- Expense Description
-- Participant Selection
-- Payer Management
+The project demonstrates modern full-stack development practices, responsive UI design, RESTful APIs, AI integration, and real-time communication.
 
 ---
 
-### Balance Calculation
+# Features
 
-- Automatic Equal Expense Splitting
-- Individual Net Balance Calculation
-- Creditor & Debtor Identification
-- Settlement Suggestions
-- Optimized Settlement Generation
+## Authentication
 
----
-
-### Settlement System
-
-- Record Settlements
-- Settlement History
-- Automatic Balance Updates
-- Outstanding Balance Tracking
+* User Registration
+* Secure Login
+* JWT Authentication
+* Protected Routes
+* Password Encryption using bcrypt
+* Secure Cookie-based Authentication
 
 ---
 
-### Dashboard
+## Dashboard
 
-- Total Expenses
-- Category-wise Summary
-- Recent Transactions
-- Group Statistics
-- Pending Settlements
-
----
-
-### Security
-
-- JWT Authentication
-- Password Hashing
-- Authorization Middleware
-- Protected REST APIs
-- User Ownership Validation
+* Financial Overview
+* Expense Summary
+* Category-wise Analytics
+* Recent Transactions
+* Interactive Charts
+* Responsive Dashboard Layout
 
 ---
 
-## Tech Stack
+## Expense Management
 
-### Frontend
-
-- React
-- React Router
-- Axios
-- Tailwind CSS
-- React Icons
-
-### Backend
-
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-
-### Authentication
-
-- JSON Web Token (JWT)
-- bcrypt
-
-### Database
-
-- MongoDB Atlas
-
-### Deployment
-
-- Frontend: Vercel
-- Backend: Render
+* Add Expenses
+* Edit Expenses
+* Delete Expenses
+* Search Expenses
+* Filter by Category
+* Expense History
+* Responsive Expense Table
 
 ---
 
-## Project Structure
+## Group Expense Management
 
+* Create Groups
+* Add Members
+* Record Shared Expenses
+* Automatic Expense Splitting
+* Settlement Tracking
+* Group Expense History
+
+---
+
+## AI Financial Assistant
+
+Powered by Google Gemini.
+
+Features include:
+
+* Financial Question Answering
+* Expense Analysis
+* Spending Pattern Insights
+* Personalized Saving Suggestions
+* Budget Planning
+* Context-aware AI Responses
+* Real-time Streaming Responses using Server-Sent Events (SSE)
+
+---
+
+## Real-Time Notifications
+
+Built using Socket.IO.
+
+Features include:
+
+* Instant Notification Delivery
+* Expense Notifications
+* Group Activity Notifications
+* Read / Unread Notification Management
+* Live Notification Counter
+* Real-time Client Updates
+
+---
+
+## User Profile
+
+* Update Personal Information
+* Upload Profile Picture
+* Account Details
+* Financial Statistics
+
+---
+
+# Technology Stack
+
+## Frontend
+
+* React
+* React Router
+* Tailwind CSS
+* Context API
+* Axios
+* Lucide React
+* React Icons
+
+---
+
+## Backend
+
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT
+* Socket.IO
+* bcrypt
+* Multer
+
+---
+
+## AI
+
+* Google Gemini API
+* Prompt Engineering
+* Server-Sent Events (SSE)
+
+---
+
+# Technical Highlights
+
+* Full Stack MERN Architecture
+* RESTful API Design
+* JWT Authentication
+* Cookie-based Authentication
+* MVC Backend Architecture
+* Context API State Management
+* Real-time Notifications using Socket.IO
+* Streaming AI Responses using SSE
+* File Upload using Multer
+* Responsive UI using Tailwind CSS
+* AI Integration with Google Gemini
+* Modular Component Architecture
+
+---
+
+# System Architecture
+
+```text
+                    React Frontend
+                           │
+            REST API       │      Socket.IO
+                           │
+                  Express.js Backend
+                  │                │
+                  │                │
+              MongoDB         Gemini API
+                  │
+             Application Data
 ```
-Expense-Tracker
+
+---
+
+# Project Structure
+
+```text
+SpendWise-AI
 │
-├── backend
+├── client
+│   ├── src
+│   │
+│   ├── assets
+│   ├── components
+│   ├── context
+│   ├── layouts
+│   ├── pages
+│   ├── services
+│   ├── hooks
+│   ├── utils
+│   └── App.jsx
+│
+├── server
 │   ├── controllers
 │   ├── middleware
 │   ├── models
 │   ├── routes
-│   ├── config
+│   ├── services
+│   ├── uploads
+│   ├── utils
+│   ├── socket
 │   └── server.js
 │
-├── frontend
-│   ├── components
-│   ├── pages
-│   ├── context
-│   ├── services
-│   └── App.jsx
+├── README.md
 │
-└── README.md
+└── package.json
 ```
 
 ---
 
-## Database Models
+# REST API
 
-- User
-- Expense
-- Group
-- GroupExpense
-- Settlement
+## Authentication
 
----
-
-## Core Algorithms
-
-### Expense Splitting
-
-- Equal share calculation
-- Participant-wise contribution
-- Net balance generation
-
-### Settlement Algorithm
-
-The application minimizes the number of transactions required to settle all outstanding balances by:
-
-- Calculating net balances
-- Identifying creditors and debtors
-- Matching users using a greedy settlement approach
-- Generating optimized settlement suggestions
-
----
-
-## API Modules
-
-### Authentication
-
-- Register User
-- Login User
-- Logout User
-
-### Expenses
-
-- Add Expense
-- Update Expense
-- Delete Expense
-- Get Expenses
-
-### Dashboard
-
-- Dashboard Statistics
-- Category Aggregation
-
-### Groups
-
-- Create Group
-- Get User Groups
-- Add Member
-- Group Details
-
-### Group Expenses
-
-- Add Expense
-- Update Expense
-- Delete Expense
-- Get Expenses
-- Calculate Balances
-
-### Settlements
-
-- Record Settlement
-- Settlement History
-
----
-
-## Installation
-
-### Clone Repository
-
-```bash
-git clone https://github.com/your-username/Expense-Tracker.git
+```http
+POST   /api/auth/register
+POST   /api/auth/login
+POST   /api/auth/logout
+GET    /api/auth/profile
+PUT    /api/auth/profile
+PUT    /api/auth/upload-profile
 ```
 
-### Install Backend
+---
+
+## Expenses
+
+```http
+GET     /api/expenses
+POST    /api/expenses
+PUT     /api/expenses/:id
+DELETE  /api/expenses/:id
+```
+
+---
+
+## Groups
+
+```http
+GET     /api/groups
+POST    /api/groups
+GET     /api/groups/:id
+PUT     /api/groups/:id
+DELETE  /api/groups/:id
+```
+
+---
+
+## AI
+
+```http
+POST /api/ai/chat
+POST /api/ai/chat/stream
+POST /api/ai/analyze
+```
+
+---
+
+# Installation
+
+Clone the repository
 
 ```bash
-cd backend
+git clone https://github.com/your-username/spendwise-ai.git
+```
+
+Backend
+
+```bash
+cd server
 npm install
+npm run dev
 ```
 
-### Install Frontend
+Frontend
 
 ```bash
-cd frontend
+cd client
 npm install
+npm run dev
 ```
 
-### Environment Variables
+---
 
-Create a `.env` file inside the backend directory.
+# Environment Variables
 
-```
+Create a `.env` file inside the server directory.
+
+```env
 PORT=
-MONGODB_URI=
+
+MONGO_URI=
+
 JWT_SECRET=
-CLIENT_URL=
+
+GEMINI_API_KEY=
+
+CLOUDINARY_CLOUD_NAME=
+
+CLOUDINARY_API_KEY=
+
+CLOUDINARY_API_SECRET=
 ```
 
-### Run Backend
+#
 
-```bash
-npm run dev
-```
+# Future Enhancements
 
-### Run Frontend
-
-```bash
-npm run dev
-```
+* AI-powered Expense Forecasting
+* OCR Receipt Scanner
+* Voice-enabled AI Assistant
+* Financial Goal Tracking
+* Monthly Expense Reports
+* Export Reports as PDF
+* Export Reports as Excel
+* Multi-currency Support
+* Dark Mode
+* AI Investment Suggestions
+* Email Notifications
+* Progressive Web App (PWA)
+* Mobile Application
 
 ---
 
-## Future Enhancements
+# Learning Outcomes
 
-- Real-time Notifications using Socket.io
-- Live Group Activity
-- Group Chat
-- Expense Search & Filtering
-- File Attachments for Receipts
-- Payment Gateway Integration
-- Email Notifications
-- Multi-Currency Support
-- Dark Mode
-- Mobile Responsive Enhancements
+This project demonstrates practical implementation of:
+
+* Full Stack MERN Development
+* REST API Development
+* MongoDB Data Modeling
+* JWT Authentication
+* Cookie-based Authentication
+* Context API State Management
+* File Upload Handling with Multer
+* AI Integration using Google Gemini
+* Prompt Engineering
+* Server-Sent Events (SSE)
+* Socket.IO Real-time Communication
+* Event-driven Programming
+* Responsive Web Design
+* Tailwind CSS
+* Component-based Architecture
+* MVC Design Pattern
+* Error Handling
+* Secure Backend Development
 
 ---
 
-## Author
+# Author
 
 **Shreya Mittal**
 
@@ -294,6 +378,9 @@ Full Stack MERN Developer
 
 GitHub: https://github.com/shreyamittal239
 
-
-
 ---
+
+# License
+
+This project is developed for learning, portfolio, and demonstration purposes.
+
