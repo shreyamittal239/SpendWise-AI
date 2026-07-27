@@ -200,21 +200,21 @@ const totalExpense = expenses.reduce(
 
     if (loading) {
         return (
-            <DashBoardLayout>
+            <DashboardLayout>
                 <div className="text-center mt-20 text-xl font-semibold">
                     Loading Group...
                 </div>
-            </DashBoardLayout>
+            </DashboardLayout>
         );
     }
 
     if (!group) {
         return (
-            <DashBoardLayout>
+            <DashboardLayout>
                 <div className="text-center mt-20 text-red-500">
                     Group not found.
                 </div>
-            </DashBoardLayout>
+            </DashboardLayout>
         );
     }
 
@@ -226,103 +226,91 @@ const totalExpense = expenses.reduce(
 
                 {/* Group Header */}
 
-                <div className="bg-white shadow-lg rounded-2xl p-8 mb-8">
+                <div className="mb-8 rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 p-8 shadow-2xl text-white">
 
-                    <div className="flex justify-between items-center">
+    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
 
-                       <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 rounded-3xl p-8 text-white shadow-xl">
+        {/* Left Side */}
 
-    <h1 className="text-4xl font-bold">
+        <div className="flex-1">
 
-        {group.name}
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium mb-5">
 
-    </h1>
+                👥 Group Details
 
-    <p className="text-indigo-100 mt-2">
+            </div>
 
-        {group.description}
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
 
-    </p>
+                {group.name}
 
-    <div className="flex gap-8 mt-6">
+            </h1>
 
-        <div>
+            <p className="mt-3 text-indigo-100 text-lg max-w-2xl">
 
-            👥 {group.members.length} Members
+                {group.description || "No description available."}
 
-        </div>
-
-        <div>
-
-            💰 ₹{totalExpense}
+            </p>
 
         </div>
 
-        <div>
+        {/* Right Side */}
 
-            🧾 {expenses.length} Expenses
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full lg:w-auto">
+
+            <div className="bg-white/15 backdrop-blur-lg rounded-2xl p-5 text-center border border-white/20">
+
+                <p className="text-sm text-indigo-100">
+
+                    Members
+
+                </p>
+
+                <h2 className="text-3xl font-bold mt-2">
+
+                    {group.members.length}
+
+                </h2>
+
+            </div>
+
+            <div className="bg-white/15 backdrop-blur-lg rounded-2xl p-5 text-center border border-white/20">
+
+                <p className="text-sm text-indigo-100">
+
+                    Expenses
+
+                </p>
+
+                <h2 className="text-3xl font-bold mt-2">
+
+                    {expenses.length}
+
+                </h2>
+
+            </div>
+
+            <div className="bg-white/15 backdrop-blur-lg rounded-2xl p-5 text-center border border-white/20">
+
+                <p className="text-sm text-indigo-100">
+
+                    Total Spent
+
+                </p>
+
+                <h2 className="text-3xl font-bold mt-2">
+
+                    ₹{totalExpense.toLocaleString()}
+
+                </h2>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mt-8">
-
-    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
-
-        <p className="text-gray-500 text-sm">
-            Total Expense
-        </p>
-
-        <h2 className="text-3xl font-bold text-indigo-600 mt-2">
-            ₹{totalExpense}
-        </h2>
-
-    </div>
-
-    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
-
-        <p className="text-gray-500 text-sm">
-            Members
-        </p>
-
-        <h2 className="text-3xl font-bold text-green-600 mt-2">
-            {group.members.length}
-        </h2>
-
-    </div>
-
-    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
-
-        <p className="text-gray-500 text-sm">
-            Expenses
-        </p>
-
-        <h2 className="text-3xl font-bold text-orange-500 mt-2">
-            {expenses.length}
-        </h2>
-
-    </div>
-
-    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
-
-        <p className="text-gray-500 text-sm">
-            Pending Settlements
-        </p>
-
-        <h2 className="text-3xl font-bold text-red-500 mt-2">
-            {balances.length}
-        </h2>
-
-    </div>
-
-</div>
-
-                    </div>
-
-                </div>
 
                 {/* Members */}
 

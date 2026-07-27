@@ -14,7 +14,8 @@ const {
     resetPassword,
     getProfile,
     updateProfile,
-    uploadProfileImage
+    uploadProfileImage,
+    getProfileStats
 } = require("../controller/authcontroller");
 
 router.post("/register", register);
@@ -36,4 +37,5 @@ router.put(
     upload.single("profileImage"),
     uploadProfileImage
 );
+router.get("/profile-stats", authMiddleware, getProfileStats);
 module.exports = router;

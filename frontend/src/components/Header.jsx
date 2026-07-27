@@ -5,14 +5,17 @@ import NotificationDropdown from "./NotificationDropdown";
 import { useState } from "react";
 import { useNotification } from "../context/NotificationContext";
 import {
+    Menu,
     Search,
     Bell,
     ChevronDown,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({setSidebarOpen}) => {
     const { markAllAsRead } = useNotification();
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
 
@@ -41,66 +44,41 @@ const Header = () => {
 
         <header className="sticky top-0 z-20 bg-white/70 backdrop-blur-xl border-b border-gray-200">
 
-            <div className="flex justify-between items-center px-10 py-5">
+            <div className="flex justify-between items-center px-4 sm:px-6 lg:px-10 py-4">
 
                 {/* Left Section */}
 
-                <div>
+                <div className="flex items-center gap-3">
 
-                    <h1 className="text-3xl font-bold text-gray-800">
+                    <button
+    onClick={() => setSidebarOpen(true)}
+    className="lg:hidden p-2 rounded-xl hover:bg-slate-100"
+>
+    <Menu size={24} />
+</button>
 
-                        {greeting} 👋
+                      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">
+        {greeting}
+        <span className="ml-2">👋</span>
+    </h1>
 
-                    </h1>
-
-                    <p className="text-gray-500 mt-1">
-
-                        Welcome back,
-
-                        <span className="font-semibold text-indigo-600 ml-1">
-
-                            {user?.name}
-
-                        </span>
-
-                    </p>
+    <p className="mt-1 text-sm sm:text-base text-slate-500">
+        Welcome back,
+        <span className="ml-1 font-semibold text-indigo-600">
+            {user?.name}
+        </span>
+    </p>
+  
 
                 </div>
 
                 {/* Right Section */}
 
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-2 sm:gap-4 lg:gap-5">
 
                     {/* Search */}
 
-                    <div className="relative">
-
-                        <Search
-                            size={18}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            className="
-                            w-72
-                            pl-11
-                            pr-4
-                            py-3
-                            rounded-2xl
-                            bg-white
-                            border
-                            border-gray-200
-                            outline-none
-                            focus:ring-2
-                            focus:ring-indigo-500
-                            transition
-                            "
-                        />
-
-                    </div>
-
+                    
                     {/* Notifications */}
 
                     <div className="relative">
@@ -123,7 +101,7 @@ const Header = () => {
 
     <div
     
-    
+     onClick={() => navigate("/profile")}
     className="flex items-center gap-3 cursor-pointer hover:bg-slate-100 px-3 py-2 rounded-xl transition-all"
 >
 

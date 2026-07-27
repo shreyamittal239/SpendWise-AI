@@ -4,6 +4,9 @@ const generateToken = require("../utils/generateToken")
 const crypto = require("crypto");
 const sendEmail = require("../services/sendEmail")
 const emailTemplate = require("../services/emailTemplates");
+const Expense = require("../models/expense");
+const Group = require("../models/group");
+
 
 const register = async (req, res) => {
    const {name , email, password } = req.body; 
@@ -327,6 +330,54 @@ const uploadProfileImage = async (req, res) => {
         });
     }
 };
+
+const getProfileStats = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const [
+            totalExpenses,
+            totalGroups,
+            totalSpentResult
+        ] = await Promise.all([
+
+            Expense.countDocuments({ user: userId }),
+
+            Group.countDocuments({
+                members: userId,
+            }),
+
+            Expense.aggregate([
+                {
+                    $match: {
+                        user: req.user._id,
+                    },
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: {
+                            $sum: "$amount",
+                        },
+                    },
+                },
+            ]),
+        ]);
+
+        res.json({
+            totalExpenses,
+            totalGroups,
+            totalSpent: totalSpentResult[0]?.total || 0,
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Unable to fetch profile statistics",
+        });
+    }
+};
 module.exports = {
     register,
     login,
@@ -336,5 +387,6 @@ module.exports = {
     resetPassword,
     getProfile,
     updateProfile,
-    uploadProfileImage
+    uploadProfileImage,
+    getProfileStats,
 };

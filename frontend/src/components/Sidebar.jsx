@@ -12,8 +12,8 @@ import {
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 
-const Sidebar = () => {
-
+const Sidebar = ({sidebarOpen , setSidebarOpen}) => {
+   
     const navigate = useNavigate();
     const { logout } = useContext(AuthContext);
 
@@ -46,13 +46,24 @@ const Sidebar = () => {
     ];
 
     const handleLogout = async () => {
+         setSidebarOpen(false);
         await logout();
         navigate("/login");
     };
 
     return (
 
-        <aside className="w-72 h-full bg-white border-r border-gray-200 flex flex-col justify-between shadow-sm">
+        <aside className={`
+        fixed top-0 left-0 z-40
+        h-screen w-72
+        bg-white border-r border-gray-200 shadow-sm
+        flex flex-col justify-between
+        transform transition-transform duration-300 ease-in-out
+
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+
+        lg:translate-x-0
+    `}>
 
             <div>
 
@@ -93,6 +104,7 @@ const Sidebar = () => {
                             <NavLink
                                 key={item.path}
                                 to={item.path}
+                                 onClick={() => setSidebarOpen(false)}
                                 className={({ isActive }) =>
                                     `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all ${
                                         isActive
