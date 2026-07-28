@@ -7,17 +7,19 @@ const AuthContext = createContext();
 const AuthProvider = ( {children}) => {
 
     const [user , setUser] = useState(null);
+    const [loading , setLoading] = useState(true);
      
     const login = async (formData) => {
 
         const response = await api.post("/auth/login", formData);
 
         setUser(response.data.user);
+         setLoading(false);
 
         return response.data;
     };
 
-    const getCurrentUser = async () => {
+  const getCurrentUser = async () => {
 
     try {
 
@@ -29,10 +31,13 @@ const AuthProvider = ( {children}) => {
 
         setUser(null);
 
+    } finally {
+
+        setLoading(false);
+
     }
 
 };
-
 useEffect(() => {
 
     getCurrentUser();
@@ -45,6 +50,7 @@ useEffect(() => {
     await api.post("/auth/logout");
 
     setUser(null);
+     setLoading(false);
 
 };
     return ( 
@@ -52,7 +58,9 @@ useEffect(() => {
          value= { {
             user,
             setUser,
+            loading,
             login,
+            
             logout,
             getCurrentUser,
          }}>
