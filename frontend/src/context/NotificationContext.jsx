@@ -93,6 +93,92 @@ const clearNotifications = () => {
     ]);
 
 };
+const handleGroupMemberAdded = (data) => {
+
+    const notification = {
+        id: Date.now(),
+        type: "group",
+        title: "New Group Member",
+        message: `${data.memberName} joined ${data.groupName}`,
+        createdAt: new Date(),
+        read: false,
+    };
+
+    setNotifications((prev) => [
+        notification,
+        ...prev,
+    ]);
+
+};
+
+const handleGroupExpenseAdded = (data) => {
+
+    const notification = {
+        id: Date.now(),
+        type: "groupExpense",
+        title: "Group Expense Added",
+        message: `${data.paidBy} added ₹${data.amount} for ${data.title} in ${data.groupName}`,
+        createdAt: new Date(),
+        read: false,
+    };
+
+    setNotifications((prev) => [
+        notification,
+        ...prev,
+    ]);
+
+};
+const handleGroupExpenseUpdated = (data) => {
+
+    const notification = {
+        id: Date.now(),
+        type: "groupExpense",
+        title: "Group Expense Updated",
+        message: `${data.updatedBy} updated ${data.title}`,
+        createdAt: new Date(),
+        read: false,
+    };
+
+    setNotifications((prev) => [
+        notification,
+        ...prev,
+    ]);
+
+};
+const handleGroupExpenseDeleted = (data) => {
+
+    const notification = {
+        id: Date.now(),
+        type: "groupExpense",
+        title: "Group Expense Deleted",
+        message: `${data.deletedBy} deleted ${data.title}`,
+        createdAt: new Date(),
+        read: false,
+    };
+
+    setNotifications((prev) => [
+        notification,
+        ...prev,
+    ]);
+
+};
+const handleSettlementCompleted = (data) => {
+
+    const notification = {
+        id: Date.now(),
+        type: "settlement",
+        title: "Settlement Completed",
+        message: `${data.from} settled ₹${data.amount} `,
+        createdAt: new Date(),
+        read: false,
+    };
+
+    setNotifications((prev) => [
+        notification,
+        ...prev,
+    ]);
+
+};
     useEffect(() => {
 
        
@@ -104,7 +190,16 @@ const clearNotifications = () => {
      socket.on("expenseUpdated", handleExpenseUpdated);
 
      socket.on("expenseDeleted", handleExpenseDeleted);
+   
+     socket.on("groupMemberAdded", handleGroupMemberAdded);
 
+    socket.on("groupExpenseAdded", handleGroupExpenseAdded);
+
+    socket.on("groupExpenseUpdated", handleGroupExpenseUpdated);
+
+    socket.on("groupExpenseDeleted", handleGroupExpenseDeleted);
+
+socket.on("settlementCompleted", handleSettlementCompleted);
 
 
 
@@ -112,8 +207,19 @@ const clearNotifications = () => {
 
             socket.off("expenseAdded", handleExpense);
         
-socket.off("expenseUpdated", handleExpenseUpdated);         
-socket.off("expenseDeleted", handleExpenseDeleted);
+          socket.off("expenseUpdated", handleExpenseUpdated);         
+         socket.off("expenseDeleted", handleExpenseDeleted);
+
+          socket.off("groupMemberAdded", handleGroupMemberAdded);
+ 
+        socket.off("groupExpenseAdded", handleGroupExpenseAdded);
+
+        socket.off("groupExpenseUpdated", handleGroupExpenseUpdated);
+
+        socket.off("groupExpenseDeleted", handleGroupExpenseDeleted);
+
+        socket.off("settlementCompleted", handleSettlementCompleted);
+
 
 
         };

@@ -129,9 +129,13 @@ const addMember = async (req, res) => {
 
         group.members.push(user._id);
 
+
         await group.save();
         req.io.emit("memberJoined", {
-    user: user.name,
+         groupId: group._id,
+    groupName: group.name,
+    memberName: user.name,      // user that was added
+    addedBy: req.user.name,     
 });
 
         res.status(200).json({
