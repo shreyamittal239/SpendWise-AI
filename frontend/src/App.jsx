@@ -42,7 +42,7 @@ function App() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/register" element={<Register />} />
 
-      <Route path="/groups" element={<Groups />} />
+      <Route path="/groups" element={<ProtectedRoute><Groups /></ProtectedRoute>} />
       <Route
     path="/groups/:id"
     element={<GroupDetails />}
@@ -75,7 +75,7 @@ function App() {
 />
 <Route
     path="/profile"
-    element={<Profile />}
+    element={<ProtectedRoute><Profile /></ProtectedRoute>}
 />
 <Route 
  path="/forgot-password"
@@ -83,7 +83,7 @@ function App() {
  />
  <Route
     path="/ai"
-    element={<AIAssistant />}
+    element={<ProtectedRoute><AIAssistant /></ProtectedRoute>}
 />
       
 
