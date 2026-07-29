@@ -162,8 +162,6 @@ const deleteGroupExpense = async (req, res) => {
         await expense.deleteOne();
 
         req.io.emit("groupExpenseDeleted", {
-      groupId: group._id,
-     groupName: group.name,
       title: expense.title,
       deletedBy: req.user.name,
   
@@ -464,8 +462,6 @@ const updateGroupExpense = async (req , res) => {
 }
 
   req.io.emit("groupExpenseUpdated", {
-    groupId: group._id,
-    groupName: group.name,
     title: expense.title,
     updatedBy: req.user.name,
 });

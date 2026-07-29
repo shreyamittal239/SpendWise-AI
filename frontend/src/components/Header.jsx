@@ -81,7 +81,7 @@ const Header = ({setSidebarOpen}) => {
                     
                     {/* Notifications */}
 
-                    <div className="relative">
+                    <div className="flex items-center justify-between">
 
     <NotificationBell
         onClick={handleNotificationClick}

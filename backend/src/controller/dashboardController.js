@@ -76,6 +76,11 @@ const formattedMonthlyExpenses = monthlyExpenses.map((item) => ({
     amount: item.amount,
 }));
 
+console.log(formattedMonthlyExpenses);
+
+formattedMonthlyExpenses.forEach((item) => {
+    console.log(item.amount, typeof item.amount);
+});
 const totalTransactions = expenses.length;
 
 const categoryCount = await Expense.distinct(

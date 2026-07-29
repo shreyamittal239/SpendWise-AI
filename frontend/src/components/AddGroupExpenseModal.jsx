@@ -5,6 +5,7 @@ const AddGroupExpenseModal = ({
     group,
     closeModal,
     refreshExpenses,
+    refreshBalances
 }) => {
 
     const [formData, setFormData] = useState({
@@ -72,6 +73,7 @@ const AddGroupExpenseModal = ({
             });
 
             refreshExpenses();
+            refreshBalances();
 
             closeModal();
 

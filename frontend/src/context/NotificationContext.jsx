@@ -179,6 +179,42 @@ const handleSettlementCompleted = (data) => {
     ]);
 
 };
+
+const handleGroupUpdated = (data) => {
+
+    const notification = {
+        id: Date.now(),
+        type: "group",
+        title: "Group Updated",
+        message: `${data.updatedBy} updated "${data.groupName}"`,
+        createdAt: new Date(),
+        read: false,
+    };
+
+    setNotifications(prev => [
+        notification,
+        ...prev,
+    ]);
+
+};
+
+const handleGroupDeleted = (data) => {
+
+    const notification = {
+        id: Date.now(),
+        type: "group",
+        title: "Group Deleted",
+        message: `${data.deletedBy} deleted "${data.groupName}"`,
+        createdAt: new Date(),
+        read: false,
+    };
+
+    setNotifications(prev => [
+        notification,
+        ...prev,
+    ]);
+
+};
     useEffect(() => {
 
        
@@ -201,16 +237,19 @@ const handleSettlementCompleted = (data) => {
 
 socket.on("settlementCompleted", handleSettlementCompleted);
 
+socket.on("groupUpdated", handleGroupUpdated);
+socket.on("groupDeleted", handleGroupDeleted);
+
 
 
         return () => {
 
-            socket.off("expenseAdded", handleExpense);
+        socket.off("expenseAdded", handleExpense);
         
-          socket.off("expenseUpdated", handleExpenseUpdated);         
-         socket.off("expenseDeleted", handleExpenseDeleted);
+        socket.off("expenseUpdated", handleExpenseUpdated);         
+        socket.off("expenseDeleted", handleExpenseDeleted);
 
-          socket.off("groupMemberAdded", handleGroupMemberAdded);
+        socket.off("groupMemberAdded", handleGroupMemberAdded);
  
         socket.off("groupExpenseAdded", handleGroupExpenseAdded);
 
@@ -219,6 +258,10 @@ socket.on("settlementCompleted", handleSettlementCompleted);
         socket.off("groupExpenseDeleted", handleGroupExpenseDeleted);
 
         socket.off("settlementCompleted", handleSettlementCompleted);
+
+        socket.off("groupUpdated", handleGroupUpdated);
+
+        socket.off("groupDeleted", handleGroupDeleted);
 
 
 

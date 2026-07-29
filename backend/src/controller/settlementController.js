@@ -45,6 +45,13 @@ const settlePayment = async (req , res ) => {
             });
         }
 
+        if (req.user.id !== from) {
+    return res.status(403).json({
+        success: false,
+        message: "You can only record your own settlements.",
+    });
+}
+
         // Create settlement
         const settlement = await Settlement.create({
             group: groupId,
@@ -53,12 +60,7 @@ const settlePayment = async (req , res ) => {
             amount,
         });
 
-        if (req.user.id !== from) {
-    return res.status(403).json({
-        success: false,
-        message: "You can only record your own settlements.",
-    });
-}
+        
 
    req.io.emit("settlementCompleted", {
     user: settlement.from,

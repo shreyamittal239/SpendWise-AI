@@ -8,6 +8,8 @@ import {
     FaUserPlus,
     FaReceipt,
 } from "react-icons/fa";
+import { useContext } from "react";
+import AuthContext from "../context/AuthProvider";
 import AddGroupExpenseModal from "../components/AddGroupExpenseModal";
 import SettlementModal from "../components/SettlementModel";
 import EditGroupExpense from "../components/EditGroupExpense";
@@ -15,7 +17,7 @@ import EditGroupExpense from "../components/EditGroupExpense";
 const GroupDetails = () => {
 
     const { id } = useParams();
-
+    const {user} = useContext(AuthContext);
     const [group, setGroup] = useState(null);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
@@ -27,7 +29,7 @@ const GroupDetails = () => {
     const [settlementHistory, setSettlementHistory] = useState([]);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editingExpense, setEditingExpense] = useState(null);
-
+    const [showEditModal, setShowEditModal] = useState(false);
 
     const fetchGroup = async () => {
         try {
@@ -95,6 +97,7 @@ const GroupDetails = () => {
         fetchExpenses();
 
         fetchBalances();
+        fetchGroup();
 
     } catch (error) {
 
@@ -121,6 +124,56 @@ const GroupDetails = () => {
     }
 
 };
+
+const updateGroup = async () => {
+
+    try {
+
+        await api.put(
+            `/groups/${group._id}`,
+            {
+                name,
+                description,
+            }
+        );
+
+        toast.success("Group updated");
+
+        refreshGroup();
+
+        closeModal();
+
+    } catch (error) {
+
+        toast.error(error.response.data.message);
+
+    }
+
+};
+const handleDeleteGroup = async () => {
+
+    const confirmed = window.confirm(
+        "Delete this group?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+
+        await api.delete(`/groups/${group._id}`);
+
+        toast.success("Group deleted");
+
+        navigate("/groups");
+
+    } catch (error) {
+
+        toast.error(error.response.data.message);
+
+    }
+
+};
+
 const fetchBalances = async () => {
 
     try {
@@ -154,6 +207,7 @@ const openEditModal = (expense) => {
     setIsEditOpen(true);
 
 };
+
 
 const fetchSettlementHistory = async () => {
 
@@ -252,7 +306,10 @@ const totalExpense = expenses.reduce(
 
             </p>
 
+                   
         </div>
+
+
 
         {/* Right Side */}
 
@@ -577,11 +634,12 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 
                 <button
                     className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-xl"
+                    onClick={()=>openEditModal(expense)}
                 >
                     ✏ Edit
                 </button>
 
-                <button
+                <button onClick={()=>deleteExpense(expense._id)}
                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl"
                 >
                     🗑 Delete
@@ -1059,10 +1117,14 @@ showSettlementModal && (
 
             fetchBalances={fetchBalances}
 
+            fetchGroup={fetchGroup}
+
         />
 
     )
 }
+
+
 
         </DashboardLayout>
 

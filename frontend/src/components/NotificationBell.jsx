@@ -17,7 +17,7 @@ const NotificationBell = ({ onClick }) => {
         >
             
 
-            <Bell size={22} />
+            <Bell size={22} className="flex items-center justify-center h-7 w-7" />
 
             {unreadCount > 0 && (
 
@@ -36,15 +36,6 @@ const NotificationBell = ({ onClick }) => {
 
             )}
 
-            <div
-    className={`p-4 border-b transition
-
-    ${
-        notifications.read
-            ? "bg-white"
-            : "bg-indigo-50"
-    }`}
-></div>
 
         </button>
 
