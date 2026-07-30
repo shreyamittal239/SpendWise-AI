@@ -79,7 +79,6 @@ const login = async (req, res) => {
   }
 
   const token = generateToken(user._id);
-
        const isProduction = process.env.NODE_ENV === "production";
 
 res.cookie("token", token, {
@@ -88,6 +87,7 @@ res.cookie("token", token, {
     sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
 });
+console.log(process.env.NODE_ENV);
 
         res.status(200).json({
             success: true,
