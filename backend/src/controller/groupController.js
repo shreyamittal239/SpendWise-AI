@@ -44,7 +44,9 @@ const getGroups = async (req, res) => {
 
         const groups = await Group.find({
             members: req.user.id,
-        }).populate("members", "name email profileImage");
+        }).populate("members", "name email profileImage")
+        .populate("createdBy", "name");
+
 
         res.status(200).json({
             success: true,
