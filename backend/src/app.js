@@ -17,16 +17,13 @@ const app = express();
 
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "public")));
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin:[ "http://localhost:5173",
-    "https://expense-tracker-mern-zeta-eight.vercel.app", // your frontend (Vite)
+    "https://expense-tracker-mern-zeta-eight.vercel.app",
+    "http://139.84.163.56", // your frontend (Vite)
     ],
     credentials: true
 }));
@@ -52,5 +49,11 @@ app.use("/api/groups", groupRoutes);
 app.use("/api/group-expenses", groupExpenseRoutes);
 app.use("/api/settlements", settlementRoutes);
 app.use("/api/ai", aiRoutes);
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 module.exports = app;
