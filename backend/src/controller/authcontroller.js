@@ -79,7 +79,7 @@ const login = async (req, res) => {
   }
 
   const token = generateToken(user._id);
-       const isProduction = process.env.NODE_ENV === "production";
+       const isProduction = false;
 
 res.cookie("token", token, {
     httpOnly: true,
@@ -102,7 +102,7 @@ console.log(process.env.NODE_ENV);
 };
 
 const logout = async (req, res) => {
-    const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = false;
 
 res.clearCookie("token", {
     httpOnly: true,
