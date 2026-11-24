@@ -1,12 +1,13 @@
 
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const { corsOptions } = require("./config/cors");
 
 const authRoutes = require("./routes/authRoutes");
 const expenseRoutes = require("./routes/expenseRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const splitExpenseRoutes = require("./routes/splitExpenseRoutes")
-const cors = require("cors")
 const budgetRoutes = require("./routes/budgetRoutes");
 const groupRoutes = require("./routes/groupRoutes");
 const groupExpenseRoutes = require("./routes/groupExpenseRoutes");
@@ -15,18 +16,9 @@ const aiRoutes  = require ("./routes/aiRoutes")
 
 const app = express();
 
-const path = require("path");
-
-
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin:[ "http://localhost:5173",
-    "https://expense-tracker-mern-zeta-eight.vercel.app",
-    "http://139.84.163.56", // your frontend (Vite)
-    ],
-    credentials: true
-}));
 app.use((req, res, next) => {
     req.io = req.app.get("io");
     next();

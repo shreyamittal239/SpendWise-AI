@@ -47,9 +47,9 @@ useEffect(() => {
 
      const logout = async () => {
 
-    await api.post("/auth/logout");
+     await api.post("/auth/logout");
 
-    setUser(null);
+     setUser(null);
      setLoading(false);
 
 };

@@ -1,4 +1,3 @@
-import { Cookie } from "lucide-react";
 import api from "./api";
 
 export const sendMessage = async (message) => {
@@ -20,10 +19,10 @@ export const sendMessage = async (message) => {
 export const sendMessageStream = async (message, onChunk) => {
   
     const response = await fetch(
-        "http://localhost:3000/api/ai/chat/stream",
+        api.getUri({ url: "/ai/chat/stream" }),
         {
             method: "POST",
-            credentials: "include",
+            credentials: api.defaults.withCredentials ? "include" : "same-origin",
             headers: {
                 "Content-Type": "application/json", 
             },
