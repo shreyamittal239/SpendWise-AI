@@ -16,6 +16,8 @@ const aiRoutes  = require ("./routes/aiRoutes")
 
 const app = express();
 
+app.set("trust proxy", process.env.RENDER === "true" ? 1 : false);
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());

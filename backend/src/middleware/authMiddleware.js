@@ -4,11 +4,7 @@ const authMiddleware = async (req, res, next) => {
 
     try {
 
-        console.log("Cookies received:", req.cookies);
-
         const token = req.cookies.token;
-
-        console.log("Token:", token);
 
         if (!token) {
             return res.status(401).json({
@@ -24,17 +20,12 @@ const authMiddleware = async (req, res, next) => {
         );
 
 
-        console.log("Decoded JWT:", decoded);
-
-
         req.user = decoded;
 
         next();
 
 
     } catch (error) {
-
-        console.log("JWT Error:", error.message);
 
         return res.status(401).json({
             success:false,

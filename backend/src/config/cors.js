@@ -41,7 +41,11 @@ const getAllowedOrigins = (frontendUrls = process.env.FRONTEND_URLS || "") => {
     return [...new Set([...defaultOrigins, ...additionalOrigins])];
 };
 
-const allowedOrigins = getAllowedOrigins();
+const getFrontendUrl = (frontendUrl = process.env.FRONTEND_URL || defaultOrigins[0]) =>
+    normalizeOrigin(frontendUrl);
+
+const frontendUrl = getFrontendUrl();
+const allowedOrigins = [...new Set([...getAllowedOrigins(), frontendUrl])];
 
 const origin = (requestOrigin, callback) => {
     callback(null, Boolean(requestOrigin && allowedOrigins.includes(requestOrigin)));
@@ -54,4 +58,4 @@ const corsOptions = {
     optionsSuccessStatus: 204
 };
 
-module.exports = { allowedOrigins, corsOptions, getAllowedOrigins };
+module.exports = { allowedOrigins, corsOptions, frontendUrl, getAllowedOrigins };

@@ -6,6 +6,12 @@ const sendEmail = require("../services/sendEmail")
 const emailTemplate = require("../services/emailTemplates");
 const Expense = require("../models/expense");
 const Group = require("../models/group");
+const { frontendUrl } = require("../config/cors");
+const {
+    AUTH_COOKIE_NAME,
+    AUTH_COOKIE_MAX_AGE,
+    getAuthCookieOptions
+} = require("../config/authCookie");
 
 
 const register = async (req, res) => {
@@ -79,15 +85,11 @@ const login = async (req, res) => {
   }
 
   const token = generateToken(user._id);
-       const isProduction = false;
 
-res.cookie("token", token, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-});
-console.log(process.env.NODE_ENV);
+        res.cookie(AUTH_COOKIE_NAME, token, {
+            ...getAuthCookieOptions(req),
+            maxAge: AUTH_COOKIE_MAX_AGE
+        });
 
         res.status(200).json({
             success: true,
@@ -102,18 +104,12 @@ console.log(process.env.NODE_ENV);
 };
 
 const logout = async (req, res) => {
-    const isProduction = false;
+    res.clearCookie(AUTH_COOKIE_NAME, getAuthCookieOptions(req));
 
-res.clearCookie("token", {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
-});
-
-res.status(200).json({
-    success: true,
-    message: "Logged out successfully",
-});
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully",
+    });
 }
 
 const getCurrentUser = async (req, res) => {
@@ -170,7 +166,10 @@ const getCurrentUser = async (req, res) => {
 
         console.log("Token saved");
 
-        const resetUrl = `expense-tracker-mern-zeta-eight.vercel.app/reset-password/${resetToken}`;
+        const resetUrl = new URL(
+            `/reset-password/${resetToken}`,
+            `${frontendUrl}/`
+        ).toString();
 
         const html = emailTemplate(
     user.name,
@@ -306,8 +305,6 @@ const uploadProfileImage = async (req, res) => {
         console.log("1. Request received");
 
         console.log("2. File:", req.file);
-
-        console.log("3. User:", req.user);
 
         const user = await User.findById(req.user.id);
 
